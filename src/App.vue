@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-    <Button txt="BUTTON" type="button" v-bind:click-fn="clickFn" />
+    <HelloWorld msg="Welcome to Your Vue.js App" :items="list" :name="name" />
+    <input type="text" v-model="name" />
+    <Button txt="BUTTON" type="button" :click-fn="clickFn" :number="num" />
   </div>
 </template>
 
@@ -16,9 +17,21 @@ export default {
     HelloWorld,
     Button,
   },
+  data() {
+    return {
+      num: 1,
+      list: {
+        Foo: { tel: "000" },
+      },
+      name: "no-name",
+    };
+  },
   methods: {
     clickFn: function() {
-      console.log("foo");
+      this.num = this.num * 2;
+      if (this.num > 100) {
+        this.num = 1;
+      }
     },
   },
 };

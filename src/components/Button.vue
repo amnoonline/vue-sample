@@ -1,5 +1,8 @@
 <template>
-  <button v-bind:type="type" v-on:click="clickFn">{{ txt }}</button>
+  <div>
+    <p v-if="number < 10 || number > 30">{{ number }}</p>
+    <button :type="type" v-on:click="clickFn">{{ txt }}</button>
+  </div>
 </template>
 
 <script>
@@ -9,6 +12,7 @@ export default {
     txt: String,
     clickFn: Function,
     type: String,
+    number: Number,
   },
 };
 </script>
