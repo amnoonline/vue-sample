@@ -1,37 +1,58 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" :items="list" :name="name" />
-    <input type="text" v-model="name" />
-    <Button txt="BUTTON" type="button" :click-fn="clickFn" :number="num" />
+    <Calc :title="title" v-on:result-event="appAction" />
+    <br />
+    <div><table v-html="log"></table></div>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-import Button from "./components/Button.vue";
+import Calc from "./components/Calc.vue";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
-    Button,
+    Calc,
   },
   data() {
     return {
-      num: 1,
-      list: {
-        Foo: { tel: "000" },
-      },
-      name: "no-name",
+      title: "CALC",
+      result: [],
     };
   },
-  methods: {
-    clickFn: function() {
-      this.num = this.num * 2;
-      if (this.num > 100) {
-        this.num = 1;
+  computed: {
+    log: function() {
+      let table = `
+      <tr>
+        <th class="head">Expression</th>
+        <th class="head">Value</th>
+      </tr>`;
+      for (let i in this.result) {
+        table += `
+        <tr>
+          <td>
+            ${this.result[i][0]}
+          </td>
+          <th>
+            ${this.result[i][1]}
+          </th>
+        </tr>`;
       }
+      return table;
+    },
+  },
+  created: function() {
+    let items = localStorage.getItem("log");
+    let logs = JSON.parse(items);
+    if (logs != null) this.result = logs;
+  },
+  methods: {
+    appAction: function(exp, res) {
+      this.result.unshift([exp, res]);
+      if (this.result.length > 10) this.result.pop();
+      let log = JSON.stringify(this.result);
+      console.log(this.result);
+      localStorage.setItem("log", log);
     },
   },
 };
@@ -44,6 +65,21 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 5px;
+}
+table {
+  margin: 0 auto;
+}
+tr td {
+  padding: 5px;
+  border: 1px solid #ddd;
+}
+tr th {
+  padding: 5px;
+  border: 1px solid gray;
+}
+tr th.head {
+  background-color: black;
+  color: #fff;
 }
 </style>

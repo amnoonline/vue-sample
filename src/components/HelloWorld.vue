@@ -1,20 +1,31 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <div v-for="(item, key) in items" :key="key">
-      <p>{{ key }} - {{ item.tel }}</p>
-    </div>
-    <h2>{{ name }}</h2>
+    <h1>{{ title }}</h1>
+    <h2>{{ msg }}</h2>
+    <input type="text" v-model="input" />
+    <button type="button" v-on:click="clickFn">BUTTON</button>
   </div>
 </template>
 
 <script>
+const defaultMsg = "no input";
 export default {
   name: "HelloWorld",
   props: {
-    msg: String,
-    items: Object,
-    name: String,
+    title: String,
+  },
+  data() {
+    return {
+      input: defaultMsg,
+      msg: "お名前は？",
+    };
+  },
+  methods: {
+    clickFn: function() {
+      if (this.input === defaultMsg) return;
+      this.msg = "私の名前は" + this.input + "です。";
+      this.$emit("result-event", this.input); //親コンポーネントで配置されているresult-eventイベントに子コンポーネントからの値(ここではthis.input)を渡している
+    },
   },
 };
 </script>
