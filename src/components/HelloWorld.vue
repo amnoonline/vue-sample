@@ -1,9 +1,29 @@
 <template>
   <div class="hello">
     <h1>{{ title }}</h1>
-    <h2>{{ msg }}</h2>
-    <input type="text" v-model="input" />
-    <button type="button" v-on:click="clickFn">BUTTON</button>
+    <p>{{ val }}</p>
+    <div>Value : <input type="number" v-model="val" /></div>
+    <table>
+      <tr>
+        <th>add:</th>
+        <td>{{ add }}</td>
+      </tr>
+      <tr>
+        <th>sub:</th>
+        <td>{{ sub }}</td>
+      </tr>
+      <tr>
+        <th>multiple:</th>
+        <td>{{ mult }}</td>
+      </tr>
+      <tr>
+        <th>devide:</th>
+        <td>{{ div }}</td>
+      </tr>
+    </table>
+
+    <!-- <input type="text" v-model="input" />
+    <button type="button" v-on:click="clickFn">BUTTON</button> -->
   </div>
 </template>
 
@@ -16,9 +36,26 @@ export default {
   },
   data() {
     return {
-      input: defaultMsg,
-      msg: "お名前は？",
+      val: 0,
+      add: 0,
+      sub: 0,
+      mult: 0,
+      div: 0,
+      // input: defaultMsg,
+      // msg: "お名前は？",
     };
+  },
+  watch: {
+    val: function(value) {
+      let val = parseInt(value);
+      this.add = Math.floor(val + 2);
+      this.sub = Math.floor(val - 2);
+      this.mult = Math.floor(val * 2);
+      this.div = Math.floor(val / 2);
+    },
+  },
+  created: function() {
+    this.val = 5;
   },
   methods: {
     clickFn: function() {
